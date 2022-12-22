@@ -1,5 +1,6 @@
 package org.botexample;
 
+import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -7,8 +8,14 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
 
+// TODO Accept Commmand - !accept <messageid> <userid> - Deletes Application Message, Gives User Role and DMs welcome message with relevant information.
+// TODO Deny Command - !deny <messageid> - Deletes Application Message
+
+// TODO Reaction Roles
+// TODO Twitch Notifier
 public class DiscordBot {
 
+    @Getter
     private static JDA JDA;
     public static void main(String[] args) {
         // A token must be provided.
