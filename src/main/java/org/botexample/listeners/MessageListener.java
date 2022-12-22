@@ -43,7 +43,7 @@ public class MessageListener extends ListenerAdapter {
         final int count = guild.getMembersWithRoles(guild.getRolesByName("member", true)).size();
         final float percentage = (reaction.getCount() * 100f) / count;
 
-        System.out.printf("Reaction Added! Reaction: %s ID: %s MemberCount: %s ReactionCount: %s Percentage: %s",
+        System.out.printf("Reaction: %s ID: %s MemberCount: %s ReactionCount: %s Percentage: %s",
                 reaction.getReactionEmote().getAsCodepoints(),
                 reaction.getMessageId(),
                 count,

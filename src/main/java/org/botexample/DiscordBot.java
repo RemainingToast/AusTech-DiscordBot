@@ -8,8 +8,12 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.botexample.listeners.MessageListener;
 import org.botexample.listeners.ReadyListener;
 
-// TODO Accept Commmand - !accept <messageid> <userid> - Deletes Application Message, Gives User Role and DMs welcome message with relevant information.
+// TODO Accept Command - !accept <messageid> <userid> - Deletes Application Message, Gives User Role and DMs welcome message with relevant information.
 // TODO Deny Command - !deny <messageid> - Deletes Application Message
+// TODO Apply Command
+// TODO FAQ Command
+// TODO Edit/Send Embed Command
+// TODO Info Embed with Apply and Content Pings Buttons
 
 // TODO Reaction Roles
 // TODO Twitch Notifier
