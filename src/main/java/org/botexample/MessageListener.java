@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,7 @@ public class MessageListener extends ListenerAdapter {
     }
 
     @Override
-    public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
+    public void onGenericMessageReaction(@NotNull GenericMessageReactionEvent event) {
         final MessageChannel channel = event.getChannel();
 
         if (channel.getIdLong() != 1051826574967713812L) return;
