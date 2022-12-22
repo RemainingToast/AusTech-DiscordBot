@@ -3,7 +3,7 @@ services:
   discord:
     container_name: tech-discord
     build:
-      context: .
+      context: ./tech-discord
     environment:
       BOT_TOKEN: 'Your token'
     tty: true
