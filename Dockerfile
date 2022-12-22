@@ -1,7 +1,6 @@
 FROM adoptopenjdk:8-jdk-hotspot AS builder
 
 ARG TOKEN
-ENV BOT_TOKEN=$TOKEN
 
 WORKDIR /discordbot
 COPY gradle ./gradle
@@ -10,7 +9,11 @@ RUN ./gradlew --no-daemon dependencies
 COPY . .
 RUN ./gradlew --no-daemon build
 
-CMD ["./gradlew", "run", "--args", "$BOT_TOKEN"]
+ENV BOT_TOKEN=${TOKEN}
+
+RUN chmod +x ./start.sh
+
+CMD ["./start.sh"]
 
 #FROM adoptopenjdk:8-jre-hotspot
 
