@@ -1,4 +1,4 @@
-FROM adoptopenjdk:8-jdk-hotspot AS builder
+FROM openjdk:17-oracle AS builder
 
 WORKDIR /discordbot
 COPY gradle ./gradle

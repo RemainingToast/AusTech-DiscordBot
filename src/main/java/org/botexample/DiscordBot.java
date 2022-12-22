@@ -5,8 +5,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-
-import javax.security.auth.login.LoginException;
+import org.botexample.listeners.MessageListener;
+import org.botexample.listeners.ReadyListener;
 
 // TODO Accept Commmand - !accept <messageid> <userid> - Deletes Application Message, Gives User Role and DMs welcome message with relevant information.
 // TODO Deny Command - !deny <messageid> - Deletes Application Message
@@ -45,7 +45,7 @@ public class DiscordBot {
 
             // optionally block until JDA is ready
             JDA.awaitReady();
-        } catch (LoginException | InterruptedException e) {
+        } catch (InterruptedException e) {
             System.err.println("Couldn't login.");
             e.printStackTrace();
         }
