@@ -16,8 +16,6 @@ public class DiscordBot {
             throw new IllegalStateException("You have to provide a token as the first argument!");
         }
 
-        System.out.printf("Your token is: %s", args[0]);
-
         /* Start the JDA bot builder, letting you provide the token externally rather
          * than writing it in your program's code. args[0] is the token. */
         JDABuilder jdaBotBuilder = JDABuilder.createDefault(args[0]);
