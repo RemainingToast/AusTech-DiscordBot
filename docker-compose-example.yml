@@ -6,3 +6,8 @@ services:
       context: .
     environment:
       BOT_TOKEN: 'Your token'
+    tty: true
+    stdin_open: true
+    restart: always
+    volumes:
+      - ./tech-discord:/discordbot
