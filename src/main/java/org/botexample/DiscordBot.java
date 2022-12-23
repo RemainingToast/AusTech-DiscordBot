@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.botexample.listeners.MessageListener;
 import org.botexample.listeners.ReadyListener;
@@ -33,6 +34,9 @@ public class DiscordBot {
 
         // Disable parts of the cache
         jdaBotBuilder.disableCache(CacheFlag.VOICE_STATE);
+
+        // Enable gateway intent
+        jdaBotBuilder.enableIntents(GatewayIntent.GUILD_MEMBERS);
 
         // Enable the bulk delete event - this means you'll have to handle it yourself!
         jdaBotBuilder.setBulkDeleteSplittingEnabled(false);
