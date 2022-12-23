@@ -57,7 +57,7 @@ public class MessageListener extends ListenerAdapter {
                         percentage
                 );
 
-                if (reaction.getEmoji() == Constants.THUMBS_UP) {
+                if (reaction.getEmoji().asUnicode() == Constants.THUMBS_UP) {
                     System.out.println("THUMBS UP");
                     if (realReactionCount >= memberCount || percentage >= 70) {
                         System.out.printf("Application with overwhelming up votes! ID: %s Count: %s Percentage: %s \n", id, realReactionCount, percentage);
@@ -65,7 +65,7 @@ public class MessageListener extends ListenerAdapter {
                     continue;
                 }
 
-                if (reaction.getEmoji() == Constants.THUMBS_DOWN) {
+                if (reaction.getEmoji().asUnicode() == Constants.THUMBS_DOWN) {
                     System.out.println("THUMBS DOWN");
                     if (realReactionCount >= memberCount || percentage >= 70) {
                         channel.deleteMessageById(id).queue();
