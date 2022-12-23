@@ -50,8 +50,6 @@ public class MessageListener extends ListenerAdapter {
                 final int realReactionCount = reaction.getCount() - 1;
                 final float percentage = (realReactionCount * 100f) / memberCount;
 
-                if (reaction != event.getReaction()) continue;
-
                 System.out.printf("Reaction: %s MemberCount: %s ReactionCount: %s Percentage: %s \n",
                         reaction.getEmoji().getName(),
                         memberCount,
@@ -59,7 +57,7 @@ public class MessageListener extends ListenerAdapter {
                         percentage
                 );
 
-                System.out.printf("Event Reaction: %s", event.getEmoji());
+                System.out.printf("Event Reaction: %s %s", event.getEmoji(), reaction.getEmoji() == event.getEmoji());
 
                 if (reaction.getEmoji().getName().equals(Constants.THUMBS_UP.getName())) {
                     System.out.println("THUMBS UP");
@@ -69,7 +67,7 @@ public class MessageListener extends ListenerAdapter {
                 } else if (reaction.getEmoji().getName().equals(Constants.THUMBS_DOWN.getName())) {
                     System.out.println("THUMBS DOWN");
                     if (realReactionCount >= memberCount || percentage >= 70) {
-                        channel.deleteMessageById(id).queue();
+//                        channel.deleteMessageById(id).queue();
                         System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s Percentage: %s \n", id, realReactionCount, percentage);
                     }
                 }
