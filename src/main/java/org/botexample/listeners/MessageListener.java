@@ -44,29 +44,30 @@ public class MessageListener extends ListenerAdapter {
         final Guild guild = event.getGuild();
 
         channel.retrieveMessageById(id).queue(message -> guild.findMembersWithRoles(guild.getRoleById(1051441766324260895L)).onSuccess(memberList -> {
-            final int count = memberList.size();
+            final int memberCount = memberList.size();
 
             for (MessageReaction reaction : message.getReactions()) {
-                final float percentage = (reaction.getCount() * 100f) / count;
+                final int realReactionCount = reaction.getCount() - 1;
+                final float percentage = (realReactionCount * 100f) / memberCount;
 
                 System.out.printf("Reaction: %s MemberCount: %s ReactionCount: %s Percentage: %s \n",
                         reaction.getEmoji().getName(),
-                        count,
+                        memberCount,
                         reaction.getCount(),
                         percentage
                 );
 
                 if (reaction.getEmoji() == Constants.THUMBS_UP) {
-                    if (reaction.getCount() >= count || percentage >= 70) {
-                        System.out.printf("Application with overwhelming up votes! ID: %s Count: %s \n", id, count);
+                    if (realReactionCount >= memberCount || percentage >= 70) {
+                        System.out.printf("Application with overwhelming up votes! ID: %s Count: %s Percentage: %s \n", id, realReactionCount, percentage);
                     }
                     continue;
                 }
 
                 if (reaction.getEmoji() == Constants.THUMBS_DOWN) {
-                    if (reaction.getCount() >= count || percentage >= 70) {
+                    if (realReactionCount >= memberCount || percentage >= 70) {
                         channel.deleteMessageById(id).queue();
-                        System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s \n", id, count);
+                        System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s Percentage: %s \n", id, realReactionCount, percentage);
                     }
                 }
             }
