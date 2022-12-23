@@ -47,27 +47,20 @@ public class MessageListener extends ListenerAdapter {
             final int memberCount = memberList.size();
 
             for (MessageReaction reaction : message.getReactions()) {
+                if (!reaction.getEmoji().getName().equals(event.getEmoji().getName())) continue;
+
                 final int realReactionCount = reaction.getCount() - 1;
                 final float percentage = (realReactionCount * 100f) / memberCount;
-
-                System.out.printf("Reaction: %s MemberCount: %s ReactionCount: %s Percentage: %s \n",
-                        reaction.getEmoji().getName(),
-                        memberCount,
-                        reaction.getCount(),
-                        percentage
-                );
-
-                System.out.printf("Event Reaction: %s %s", event.getEmoji(), reaction.getEmoji().getName().equals(event.getEmoji().getName()));
-
+                
                 if (reaction.getEmoji().getName().equals(Constants.THUMBS_UP.getName())) {
-                    System.out.println("THUMBS UP");
                     if (realReactionCount >= memberCount || percentage >= 70) {
                         System.out.printf("Application with overwhelming up votes! ID: %s Count: %s Percentage: %s \n", id, realReactionCount, percentage);
                     }
-                } else if (reaction.getEmoji().getName().equals(Constants.THUMBS_DOWN.getName())) {
-                    System.out.println("THUMBS DOWN");
+                }
+
+                if (reaction.getEmoji().getName().equals(Constants.THUMBS_DOWN.getName())) {
                     if (realReactionCount >= memberCount || percentage >= 70) {
-//                        channel.deleteMessageById(id).queue();
+                        channel.deleteMessageById(id).queue();
                         System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s Percentage: %s \n", id, realReactionCount, percentage);
                     }
                 }
