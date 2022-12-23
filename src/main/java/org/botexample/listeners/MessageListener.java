@@ -21,14 +21,14 @@ public class MessageListener extends ListenerAdapter {
         switch (channel.getId()) {
             case "1051704280450613268" -> {
                 message.addReaction(Constants.FIRE).queue();
-                System.out.printf("Added fire reaction to message with id: %s", message.getIdLong());
+                System.out.printf("Added fire reaction to message with id: %s \n", message.getIdLong());
             }
             case "1051826574967713812" -> {
                 if (event.isWebhookMessage()) {
                     message.addReaction(Constants.THUMBS_UP).queue();
                     message.addReaction(Constants.THUMBS_DOWN).queue();
 
-                    System.out.printf("Added initial reactions to message with id: %s", message.getIdLong());
+                    System.out.printf("Added initial reactions to message with id: %s \n", message.getIdLong());
                 }
             }
         }
@@ -51,25 +51,24 @@ public class MessageListener extends ListenerAdapter {
                 for (MessageReaction reaction : message.getReactions()) {
                     final float percentage = (reaction.getCount() * 100f) / count;
 
-                    System.out.printf("Reaction: %s ID: %s MemberCount: %s ReactionCount: %s Percentage: %s",
+                    System.out.printf("Reaction: %s MemberCount: %s ReactionCount: %s Percentage: %s \n",
                             reaction.getEmoji().getName(),
-                            reaction.getMessageId(),
                             count,
                             reaction.getCount(),
                             percentage
                     );
 
                     if (reaction.getEmoji() == Constants.THUMBS_UP) {
-                        if (reaction.getCount() >= count) {
-                            System.out.printf("Application with overwhelming up votes! ID: %s Count: %s", id, count);
+                        if (reaction.getCount() >= count || percentage >= 70) {
+                            System.out.printf("Application with overwhelming up votes! ID: %s Count: %s \n", id, count);
                         }
                         continue;
                     }
 
                     if (reaction.getEmoji() == Constants.THUMBS_DOWN) {
-                        if (reaction.getCount() >= count) {
+                        if (reaction.getCount() >= count || percentage >= 70) {
                             channel.deleteMessageById(id).queue();
-                            System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s", id, count);
+                            System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s \n", id, count);
                         }
                     }
                 }
