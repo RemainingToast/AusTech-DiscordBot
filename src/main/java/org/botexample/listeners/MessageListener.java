@@ -57,7 +57,7 @@ public class MessageListener extends ListenerAdapter {
                         percentage
                 );
 
-                System.out.printf("Event Reaction: %s %s", event.getEmoji(), reaction.getEmoji() == event.getEmoji());
+                System.out.printf("Event Reaction: %s %s", event.getEmoji(), reaction.getEmoji().getName().equals(event.getEmoji().getName()));
 
                 if (reaction.getEmoji().getName().equals(Constants.THUMBS_UP.getName())) {
                     System.out.println("THUMBS UP");
