@@ -32,7 +32,7 @@ public class DiscordBot {
         JDABuilder jdaBotBuilder = JDABuilder.createDefault(args[0]);
 
         // Disable parts of the cache
-        jdaBotBuilder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
+        jdaBotBuilder.disableCache(CacheFlag.VOICE_STATE);
 
         // Enable the bulk delete event - this means you'll have to handle it yourself!
         jdaBotBuilder.setBulkDeleteSplittingEnabled(false);

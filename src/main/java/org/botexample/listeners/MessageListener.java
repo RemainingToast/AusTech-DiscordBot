@@ -44,33 +44,36 @@ public class MessageListener extends ListenerAdapter {
 
         channel.retrieveMessageById(id).queue(message -> {
             final Guild guild = event.getGuild();
-            final int count = guild.getMembersWithRoles(guild.getRolesByName("member", true)).size();
 
-            for (MessageReaction reaction : message.getReactions()) {
-                final float percentage = (reaction.getCount() * 100f) / count;
+            guild.findMembersWithRoles(guild.getRoleById(1051441766324260895L)).onSuccess(list -> {
+                final int count = list.size();
 
-                System.out.printf("Reaction: %s ID: %s MemberCount: %s ReactionCount: %s Percentage: %s",
-                        reaction.getEmoji().getName(),
-                        reaction.getMessageId(),
-                        count,
-                        reaction.getCount(),
-                        percentage
-                );
+                for (MessageReaction reaction : message.getReactions()) {
+                    final float percentage = (reaction.getCount() * 100f) / count;
 
-                if (reaction.getEmoji() == Constants.THUMBS_UP) {
-                    if (reaction.getCount() >= count) {
-                        System.out.printf("Application with overwhelming up votes! ID: %s Count: %s", id, count);
+                    System.out.printf("Reaction: %s ID: %s MemberCount: %s ReactionCount: %s Percentage: %s",
+                            reaction.getEmoji().getName(),
+                            reaction.getMessageId(),
+                            count,
+                            reaction.getCount(),
+                            percentage
+                    );
+
+                    if (reaction.getEmoji() == Constants.THUMBS_UP) {
+                        if (reaction.getCount() >= count) {
+                            System.out.printf("Application with overwhelming up votes! ID: %s Count: %s", id, count);
+                        }
+                        continue;
                     }
-                    continue;
-                }
 
-                if (reaction.getEmoji() == Constants.THUMBS_DOWN) {
-                    if (reaction.getCount() >= count) {
-                        channel.deleteMessageById(id).queue();
-                        System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s", id, count);
+                    if (reaction.getEmoji() == Constants.THUMBS_DOWN) {
+                        if (reaction.getCount() >= count) {
+                            channel.deleteMessageById(id).queue();
+                            System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s", id, count);
+                        }
                     }
                 }
-            }
+            });
         });
     }
 }
