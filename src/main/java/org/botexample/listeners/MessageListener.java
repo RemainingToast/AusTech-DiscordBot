@@ -1,10 +1,15 @@
 package org.botexample.listeners;
 
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageReaction;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.botexample.Constants;
+import org.jetbrains.annotations.NotNull;
 
 public class MessageListener extends ListenerAdapter {
 
@@ -29,41 +34,43 @@ public class MessageListener extends ListenerAdapter {
         }
     }
 
-    /**
     @Override
     public void onGenericMessageReaction(@NotNull GenericMessageReactionEvent event) {
         final MessageChannel channel = event.getChannel();
 
         if (channel.getIdLong() != 1051826574967713812L) return;
 
-        final MessageReaction reaction = event.getReaction();
-        final Guild guild = event.getGuild();
-
         final long id = event.getMessageIdLong();
-        final int count = guild.getMembersWithRoles(guild.getRolesByName("member", true)).size();
-        final float percentage = (reaction.getCount() * 100f) / count;
 
-        System.out.printf("Reaction: %s ID: %s MemberCount: %s ReactionCount: %s Percentage: %s",
-                reaction.getReactionEmote().getAsCodepoints(),
-                reaction.getMessageId(),
-                count,
-                reaction.getCount(),
-                percentage
-        );
+        channel.retrieveMessageById(id).queue(message -> {
+            final Guild guild = event.getGuild();
+            final int count = guild.getMembersWithRoles(guild.getRolesByName("member", true)).size();
 
-        switch (reaction.getReactionEmote().getAsCodepoints()) {
-            case Constants.THUMBS_UP: {
-                if (reaction.getCount() >= count) {
-                    System.out.printf("Application with overwhelming up votes! ID: %s Count: %s", id, count);
+            for (MessageReaction reaction : message.getReactions()) {
+                final float percentage = (reaction.getCount() * 100f) / count;
+
+                System.out.printf("Reaction: %s ID: %s MemberCount: %s ReactionCount: %s Percentage: %s",
+                        reaction.getEmoji().getName(),
+                        reaction.getMessageId(),
+                        count,
+                        reaction.getCount(),
+                        percentage
+                );
+
+                if (reaction.getEmoji() == Constants.THUMBS_UP) {
+                    if (reaction.getCount() >= count) {
+                        System.out.printf("Application with overwhelming up votes! ID: %s Count: %s", id, count);
+                    }
+                    continue;
+                }
+
+                if (reaction.getEmoji() == Constants.THUMBS_DOWN) {
+                    if (reaction.getCount() >= count) {
+                        channel.deleteMessageById(id).queue();
+                        System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s", id, count);
+                    }
                 }
             }
-            case Constants.THUMBS_DOWN: {
-                if (reaction.getCount() >= count) {
-                    channel.deleteMessageById(id).queue();
-                    System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s", id, count);
-                }
-            }
-        }
+        });
     }
-    */
 }
