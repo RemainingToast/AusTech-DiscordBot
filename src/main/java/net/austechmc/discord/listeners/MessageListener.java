@@ -1,5 +1,6 @@
-package org.botexample.listeners;
+package net.austechmc.discord.listeners;
 
+import net.austechmc.discord.Constants;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -9,7 +10,6 @@ import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.botexample.Constants;
 import org.jetbrains.annotations.NotNull;
 
 public class MessageListener extends ListenerAdapter {

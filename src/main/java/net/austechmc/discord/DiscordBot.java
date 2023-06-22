@@ -1,4 +1,4 @@
-package org.botexample;
+package net.austechmc.discord;
 
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
@@ -6,8 +6,8 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.botexample.listeners.MessageListener;
-import org.botexample.listeners.ReadyListener;
+import net.austechmc.discord.listeners.MessageListener;
+import net.austechmc.discord.listeners.ReadyListener;
 
 // TODO Accept Command - !accept <messageid> <userid> - Deletes Application Message, Gives User Role and DMs welcome message with relevant information.
 // TODO Deny Command - !deny <messageid> - Deletes Application Message
@@ -42,7 +42,7 @@ public class DiscordBot {
         jdaBotBuilder.setBulkDeleteSplittingEnabled(false);
 
         // Set activity (like "playing Something")
-        jdaBotBuilder.setActivity(Activity.playing("AusTech \uD83D\uDE80")); // "AusTech 🚀"
+        jdaBotBuilder.setActivity(Activity.playing("Applications Open \uD83D\uDE80")); // 🚀
 
         // Set event listeners
         jdaBotBuilder.addEventListeners(new MessageListener(), new ReadyListener());

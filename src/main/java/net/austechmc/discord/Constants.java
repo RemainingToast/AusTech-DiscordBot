@@ -1,4 +1,4 @@
-package org.botexample;
+package net.austechmc.discord;
 
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.entities.emoji.UnicodeEmoji;
