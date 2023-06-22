@@ -11,5 +11,5 @@ public class Constants {
 
     public static final long MEDIA_CHANNEL_ID = 1121311387055050823L;
     public static final long APPLICATION_CHANNEL_ID = 1105434379804754030L;
-    public static final long MEMBER_ROLE_ID = 1051441766324260895L;
+    public static final long MEMBER_ROLE_ID = 1105435087601934420L;
 }
