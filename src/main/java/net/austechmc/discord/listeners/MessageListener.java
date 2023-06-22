@@ -48,7 +48,9 @@ public class MessageListener extends ListenerAdapter {
             final int memberCount = memberList.size();
 
             for (MessageReaction reaction : message.getReactions()) {
-                if (!reaction.getEmoji().asUnicode().equals(event.getEmoji())) continue;
+                if (!reaction.getEmoji().asUnicode().equals(event.getEmoji())) {
+                    continue;
+                }
 
                 final int realReactionCount = reaction.getCount() - 1;
                 final float percentage = (realReactionCount * 100f) / memberCount;
@@ -75,6 +77,10 @@ public class MessageListener extends ListenerAdapter {
 
                 if (reaction.getEmoji().asUnicode().equals(Constants.TRASH)) {
                     event.retrieveMember().queue(member -> {
+                        if (member.getUser().isBot()) {
+                            return;
+                        }
+
                         if (!member.hasPermission(Permission.ADMINISTRATOR)) {
                             reaction.removeReaction(member.getUser()).queue();
                             return;
