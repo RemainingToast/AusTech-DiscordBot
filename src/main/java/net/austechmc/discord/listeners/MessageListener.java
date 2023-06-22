@@ -31,29 +31,11 @@ public class MessageListener extends ListenerAdapter {
                 message.addReaction(Constants.THUMBS_UP).queue();
                 message.addReaction(Constants.THUMBS_DOWN).queue();
                 message.addReaction(Constants.TRASH).queue();
-                message.createThreadChannel(readMinecraftName(message)).queue();
+                message.createThreadChannel("Thread").queue();
 
                 System.out.printf("Added initial reactions to message with id: %s \n", message.getIdLong());
             }
         }
-    }
-
-    @NotNull // fun
-    private static String readMinecraftName(Message message) {
-
-        var string = new AtomicReference<>("Thread");
-
-        message.getEmbeds().forEach(embed -> {
-            System.out.println("Embed: " + embed.toData().toPrettyString());
-            embed.getFields().forEach(field -> {
-                System.out.println("Field: " + field.getName() + " " + field.getValue());
-                if (field.getName() != null && field.getName().equalsIgnoreCase("Minecraft Name (e.g. RemainingToast)")) {
-                    string.set(field.getValue());
-                }
-            });
-        });
-
-        return string.get();
     }
 
     @Override
