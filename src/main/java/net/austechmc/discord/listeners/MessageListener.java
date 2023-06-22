@@ -12,6 +12,8 @@ import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class MessageListener extends ListenerAdapter {
 
     @Override
@@ -29,10 +31,24 @@ public class MessageListener extends ListenerAdapter {
                 message.addReaction(Constants.THUMBS_UP).queue();
                 message.addReaction(Constants.THUMBS_DOWN).queue();
                 message.addReaction(Constants.TRASH).queue();
+                message.createThreadChannel(readMinecraftName(message)).queue();
 
                 System.out.printf("Added initial reactions to message with id: %s \n", message.getIdLong());
             }
         }
+    }
+
+    @NotNull // fun
+    private static String readMinecraftName(Message message) {
+        var string = new AtomicReference<>("Thread");
+
+        message.getEmbeds().forEach(embed -> embed.getFields().forEach(field -> {
+            if (field.getName() != null && field.getName().equalsIgnoreCase("Minecraft Name (e.g. RemainingToast)")) {
+                string.set(field.getValue());
+            }
+        }));
+
+        return string.get();
     }
 
     @Override
