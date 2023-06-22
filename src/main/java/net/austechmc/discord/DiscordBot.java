@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.austechmc.discord.listeners.MessageListener;
 import net.austechmc.discord.listeners.ReadyListener;
 
+import java.util.Arrays;
+
 // TODO Accept Command - !accept <messageid> <userid> - Deletes Application Message, Gives User Role and DMs welcome message with relevant information.
 // TODO Deny Command - !deny <messageid> - Deletes Application Message
 // TODO Apply Command
@@ -27,6 +29,8 @@ public class DiscordBot {
         if (args.length < 1) {
             throw new IllegalStateException("You have to provide a token as the first argument!");
         }
+
+        System.out.println("Your arguments are: " + Arrays.toString(args));
 
         /* Start the JDA bot builder, letting you provide the token externally rather
          * than writing it in your program's code. args[0] is the token. */
