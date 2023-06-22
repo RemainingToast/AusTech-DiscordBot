@@ -42,7 +42,7 @@ public class DiscordBot {
         jdaBotBuilder.setBulkDeleteSplittingEnabled(false);
 
         // Set activity (like "playing Something")
-        jdaBotBuilder.setActivity(Activity.playing("AusTech"));
+        jdaBotBuilder.setActivity(Activity.playing("AusTech \uD83D\uDE80")); // "AusTech 🚀"
 
         // Set event listeners
         jdaBotBuilder.addEventListeners(new MessageListener(), new ReadyListener());
