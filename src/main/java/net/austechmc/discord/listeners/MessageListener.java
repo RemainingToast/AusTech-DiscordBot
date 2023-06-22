@@ -40,9 +40,11 @@ public class MessageListener extends ListenerAdapter {
 
     @NotNull // fun
     private static String readMinecraftName(Message message) {
+
         var string = new AtomicReference<>("Thread");
 
         message.getEmbeds().forEach(embed -> embed.getFields().forEach(field -> {
+            System.out.println("Field: " + field.getName() + " " + field.getValue());
             if (field.getName() != null && field.getName().equalsIgnoreCase("Minecraft Name (e.g. RemainingToast)")) {
                 string.set(field.getValue());
             }
