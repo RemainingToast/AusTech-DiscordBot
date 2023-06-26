@@ -1,41 +1,56 @@
 package net.austechmc.discord.listeners;
 
-import net.austechmc.discord.Constants;
+import net.austechmc.discord.util.Constants;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.atomic.AtomicReference;
-
-public class MessageListener extends ListenerAdapter {
+public class ApplicationListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         final MessageChannelUnion channel = event.getChannel();
         final Message message = event.getMessage();
 
-        if (channel.getIdLong() == Constants.MEDIA_CHANNEL_ID) {
-            message.addReaction(Constants.FIRE).queue();
-            System.out.printf("Added fire reaction to message with id: %s \n", message.getIdLong());
+        if (channel.getIdLong() != Constants.APPLICATION_CHANNEL_ID) {
+            return;
         }
 
-        if (channel.getIdLong() == Constants.APPLICATION_CHANNEL_ID) {
-            if (event.isWebhookMessage()) {
-                message.addReaction(Constants.THUMBS_UP).queue();
-                message.addReaction(Constants.THUMBS_DOWN).queue();
-                message.addReaction(Constants.TRASH).queue();
-                message.createThreadChannel("Thread").queue();
+        if (!event.isWebhookMessage()) {
+            return;
+        }
 
-                System.out.printf("Added initial reactions to message with id: %s \n", message.getIdLong());
+        message.addReaction(Constants.THUMBS_UP).queue();
+        message.addReaction(Constants.THUMBS_DOWN).queue();
+//                message.addReaction(Constants.TRASH).queue();
+        message.createThreadChannel("Thread").queue();
+
+        System.out.printf("Added initial reactions to message with id: %s \n", message.getIdLong());
+    }
+
+    @Override
+    public void onMessageDelete(MessageDeleteEvent event) {
+        if (event.getChannel().getIdLong() != Constants.APPLICATION_CHANNEL_ID) {
+            return;
+        }
+
+        final long messageId = event.getMessageIdLong();
+
+        event.getChannel().retrieveMessageById(messageId).queue(success -> {
+            final var thread = success.getStartedThread();
+
+            if (thread != null) {
+                thread.delete().queue();
             }
-        }
+        });
     }
 
     @Override
@@ -51,14 +66,14 @@ public class MessageListener extends ListenerAdapter {
             final int memberCount = memberList.size();
 
             for (MessageReaction reaction : message.getReactions()) {
-                if (!reaction.getEmoji().asUnicode().equals(event.getEmoji())) {
+                if (!reaction.getEmoji().equals(event.getEmoji())) {
                     continue;
                 }
 
                 final int realReactionCount = reaction.getCount() - 1;
                 final float percentage = (realReactionCount * 100f) / memberCount;
-                
-                if (reaction.getEmoji().asUnicode().equals(Constants.THUMBS_UP)) {
+
+                if (reaction.getEmoji().equals(Constants.THUMBS_UP)) {
                     if (realReactionCount >= memberCount || percentage >= 70) {
                         System.out.printf("Application with overwhelming up votes! ID: %s Count: %s Percentage: %s \n",
                                 id,
@@ -68,7 +83,7 @@ public class MessageListener extends ListenerAdapter {
                     }
                 }
 
-                if (reaction.getEmoji().asUnicode().equals(Constants.THUMBS_DOWN)) {
+                if (reaction.getEmoji().equals(Constants.THUMBS_DOWN)) {
                     if (realReactionCount >= memberCount || percentage >= 70) {
                         System.out.printf("Deleted application with overwhelming down votes, ID: %s Count: %s Percentage: %s \n",
                                 id,
@@ -78,7 +93,7 @@ public class MessageListener extends ListenerAdapter {
                     }
                 }
 
-                if (reaction.getEmoji().asUnicode().equals(Constants.TRASH)) {
+                if (reaction.getEmoji().equals(Constants.TRASH)) {
                     event.retrieveMember().queue(member -> {
                         if (member.getUser().isBot()) {
                             return;
